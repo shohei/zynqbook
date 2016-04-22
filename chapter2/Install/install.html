@@ -1,0 +1,62 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=shift_jis">
+<title></title>
+</head><body><br>
+<h1><font color="teal">ZedBoard用 Cypress USB仮想シリアル・ドライバ・インストール手順</font></h1>
+<br>
+<b>●アーカイブのダウンロード</b><br>
+　次のリンクから、USB仮想シリアル・ドライバのアーカイブ・ファイル（CyUSBSerial_driver_v3.13.0.20_WHQL_CERTIFIED.zip）をダウンロードしてください。なお、ダウンロードにはユーザ登録が必要です。あらかじめ、サイプレス社のサイトでユーザ登録しておいてください（無料）。<br>
+・<a href="http://www.cypress.com/?rID=63794">USB仮想シリアル・ドライバのダウンロード・ページへ</a><br>
+<br>
+　上記リンクは、2014年8月1日現在のURLです。上記リンクが切れている場合は、サイプレス社のトップページから、キーワード検索でダウンロード・ページを探してください。<br>
+・<a href="http://jp.cypress.com/">サイプレス社のトップページへ</a><br>
+　検索キーワード：「CyUSBSerial_driver_v3.13.0.20_WHQL_CERTIFIED」など<br>
+<br>
+　ダウンロードしたら、適当なフォルダでアーカイブを解凍しておきます。<br>
+<br>
+<img src="CypressWeb.png" width="995" height="647" alt="ダウンロードページ"><br><b>USB仮想シリアル・ドライバをダウンロード</b><br>
+<br>
+<br>
+
+<b>●ZedBoardの準備とドライバのインストール</b><br>
+　ZedBoardの仮想シリアル用USBコネクタとPCをマイクロUSBケーブルで接続します。また付属のACアダプタを接続して、電源を投入してください。<br>
+<img src="ZedBoard.jpg" width="645" height="422" alt="ZedBoard写真"><br><b>写真 ZedBoardの準備</b><br>
+<br>
+　ZedBoardに電源が入るとUSBデバイスが認識され、ドライバのインストールが始まります。自動ではドライバはインストールされないので、「手動で検索してインストール」を選択してください。または、いったんドライバ・インストールをキャンセルし、デバイス・マネージャから次の写真のように「Cypress-USB2UART」という名称のデバイスを見つけてください。<br>
+<img src="install1.png" width="450" height="611" alt="インストール1"><br><b>デバイス・マネージャで「Cypress-USB2UART」を確認</b><br>
+<br>
+　該当デバイスを選択し、右クリックでポップアップを開き「ドライバ・ソフトウェアの更新」を選択してください。<br>
+<img src="install2.png" width="522" height="611" alt="インストール2"><br><b>「ドライバ・ソフトウェアの更新」を選択</b><br>
+<br>
+　起動したら「手動で検索してインストール」を選択してください。<br>
+<img src="install3.png" width="628" height="514" alt="インストール3"><br><b>「手動で検索してインストール」を選択</b><br>
+<br>
+　先ほど解凍したフォルダの中のcyusbserial\binフォルダの下に、Windows xpからWindows 8まで、OS別にフォルダがあるので、使用しているOSに合わせてフォルダを選択し、さらにその下に32ビット版か64ビット版それぞれにフォルダがあるので、こちらも使用しているOSに合わせてフォルダを選択してください。<br>
+<img src="install4.png" width="387" height="366" alt="インストール4"><br><b>フォルダ選択</b>（Windows 7/64bit版の例）<br>
+<br>
+　ドライバのインストールが完了したら、再度デバイス・マネージャを開いて、COMポート番号を確認してください。次の写真の例は、「COM5」として認識されています。<br>
+<img src="install5.png" width="447" height="602" alt="インストール5"><br><b>COMポート番号確認</b>（COM5の例）<br>
+<br>
+<br>
+<b>●COMポートの設定</b><br>
+　ZedBoardの仮想シリアル・ポートの使い勝手を良くするために、もう一つ設定があります。デバイス・マネージャを開き、該当COMポートを選択し、右クリックでポップアップを開いて、「プロパティ」を選択してください。<br>
+<img src="comset1.png" width="505" height="606" alt="セッティング1"><br><b>「プロパティ」の選択</b><br>
+<br>
+　プロパティが開いたら、「Port Settings」タブを選択し、「Advanced...」ボタンをクリックします。<br>
+<img src="comset2.png" width="479" height="430" alt="セッティング2"><br><b>「Port Settings」タブの「Advanced...」ボタンをクリック</b><br>
+<br>
+　一番上の「Enable Port Presist (Upon USB Removal - …)」にチェックが入っていない場合は、チェックを入れてください。<br>
+<img src="comset3.png" width="646" height="298" alt="セッティング3"><br><b>「Enable Port Presist」にチェックを入れる</b><br>
+<br>
+　この設定をしておくことで、ターミナル・ソフトウェアで該当COMポート（今回の例ではCOM5）を開いたままの状態でも、ZedBoardの電源をON/OFF可能になります。<br>
+　この設定をしていないと、ターミナル・ソフトウェアで該当COMポートを開いたままの状態でZedBoardの電源を切ってしまった時に、該当COMポートとの接続が内部的に切れてしまいます。いったん接続が切れると、ZedBoardの電源を再投入しても仮想シリアル・ポートは再接続されません。いったんターミナル・ソフトウェアを終了して再度起動（または、該当COMポートの接続をいったん切断して再接続）する必要があります。<br>
+　ZedBoard電源投入直後のブート・メッセージなどを確認するには、ターミナル・ソフトウェアを開いたままでZedBoardのON/OFFできるように、この設定をしておくことをお勧めします（筆者も当初はこの設定に気づかず、「電源投入直後のメッセージが見れない…」と悩みました）。<br>
+<br>
+
+
+<br>
+<br>
+<font class="copyright">Copyright (C) 2014 CQ Publishing Co.,Ltd. All Rights Rreserved.</font>
+</body>
+</html>

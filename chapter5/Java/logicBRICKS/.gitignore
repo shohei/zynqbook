@@ -1,0 +1,4 @@
+logicBRICKS.h
+*.o
+*.class
+*.so
